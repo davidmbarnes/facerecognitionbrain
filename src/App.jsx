@@ -2,7 +2,6 @@ import React, {
   Component
 } from 'react';
 import Particles from 'react-particles-js';
-
 import Navigation from './Components/Navigation/Navigation.jsx';
 import FaceRecognition from './Components/FaceRecognition/FaceRecognition.jsx';
 import Signin from './Components/Signin/Signin.jsx';
@@ -64,7 +63,7 @@ class App extends Component {
       leftCol: clarifaiFace.left_col * width,
       topRow: clarifaiFace.top_row * height,
       rightCol: width - (clarifaiFace.right_col * width),
-      bottomRow: height - (clarifaiFace.bottom_row * height),
+      bottomRow: height - (clarifaiFace.bottom_row * height)
     }
   }
 
@@ -79,13 +78,13 @@ class App extends Component {
 onButtonSubmit = () => {
     this.setState({imageUrl: this.state.input});
       fetch('https://murmuring-caverns-46447.herokuapp.com/imageurl', {
-            method: 'post',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-              id: this.state.input
-            })
-          })
-          .then(response => response.json())
+        method: 'post',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          input: this.state.input
+        })
+      })
+      .then(response => response.json())
       .then(response => {
         if (response) {
           fetch('https://murmuring-caverns-46447.herokuapp.com/image', {
@@ -99,12 +98,14 @@ onButtonSubmit = () => {
             .then(count => {
               this.setState(Object.assign(this.state.user, { entries: count}))
             })
-              .catch(console.log)
+            .catch(console.log)
+
         }
         this.displayFaceBox(this.calculateFaceLocation(response))
       })
       .catch(err => console.log(err));
   }
+
 
 onRouteChange = (route) => {
     if (route === 'signout') {
